@@ -1,0 +1,124 @@
+/*定义首页背景图*/
+#home-background{
+    background-image: url("../resource/home-top-back.jpg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    border: none;
+}
+
+/*定义分隔符*/
+.divider{
+    border-left: 2px white solid;
+    width: 0;
+    height: 1.5em;
+    margin:.5em 0;
+}
+
+.head-tag{
+    margin: 0 10px;
+    padding: 0 10px;
+}
+
+/*实现圆角按钮：立即体验*/
+.description{
+    margin: 7% 12%;
+    width: 40%;
+}
+
+#title{
+    color: rgb(43, 43, 43);
+    font-family: '苹方 粗体', '苹方 中等', '苹方';
+    font-weight: 700;
+    font-size: 48px;
+    margin: 10px 0;
+}
+
+.description-content{
+    margin: 30px 0;
+    width: 70%;
+}
+
+.home-content{
+    font-family: 'Arial Normal', 'Arial';
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 28px;
+    overflow-wrap: break-word;
+    color: rgb(81, 81, 81);
+}
+
+#entrance{
+    color: #ffffff;
+    background-color: rgb(0, 116, 238);
+    border-radius: 43px;
+    font-size: 18px;
+    font-family: 'Arial Normal', 'Arial';
+    font-weight: 700;
+    padding: 10px 35px;
+}
+
+#entrance:hover{
+    background-color: rgb(156, 157, 159);
+}
+
+.introduction-image{
+    background-image: url("../resource/introduction.png");
+    background-size: cover;
+}
+
+.introduction-content{
+    margin: 120px 50px;
+}
+
+.home-category{
+    font-size: 28px;
+    font-weight: bolder;
+    color: rgb(81, 81, 81);
+}
+
+.home-category-english{
+    color: rgb(215, 215, 215);
+    font-size: 13px;
+    font-weight: 700;
+    display: block;
+}
+
+
+
+/*我们的优势*/
+.home-advantage{
+    margin: 3% 0;
+}
+
+.home-advantage-sector{
+    padding: 5% 0;
+    border-bottom: 1px solid #cccccc;
+}
+
+.home-advantage-sector:last-child{
+    border: none;
+}
+
+.home-advantage-image{
+    /*margin-left: 10%;*/
+    width: 100%;
+    height: auto;
+    max-height: 300px;
+    object-fit: contain;
+}
+
+.app-effect{
+    color: rgb(81, 81, 81);
+    font-size: 22px;
+    font-weight: 400;
+    padding: 0;
+    margin-bottom: 0.5rem;
+}
+
+.home-advantage-decoration{
+    width: 80px;
+    height: 5px;
+    background-color: rgb(0, 116, 238);
+    border-radius: 30px;
+    margin-bottom: 1rem;
+}

@@ -1,0 +1,21 @@
+footer{
+    padding: 20px 0;
+    background-color: rgb(247, 247, 247);
+}
+
+.foot-tag{
+    font-size: 13px;
+}
+
+footer a {
+    color: rgb(153, 153, 153);
+}
+
+footer a:hover{
+    color: rgb(153, 153, 153);
+    text-decoration: none;
+}
+
+.foot-tag-color {
+    color: rgb(153, 153, 153);
+}

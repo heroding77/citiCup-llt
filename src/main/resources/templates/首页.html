@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/header.css">
+    <link rel="stylesheet" type="text/css" href="css/footer-black.css">
+    <link rel="stylesheet" type="text/css" href="css/home.css">
+</head>
+<body id="home-background">
+<nav class="navbar navbar-expand-lg navbar-ligh">
+    <a class="navbar-brand head-tag" href="#">
+        <img src="resource/logo.png" alt="logo" width="120px" height="auto">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item head-tag active"><a class="nav-link" href="/">首页</a></li>
+            <li class="nav-item head-tag"><a class="nav-link " href="javascript:void(0);">业务大厅</a></li>
+            <li class="nav-item head-tag"><a class="nav-link " href="javascript:void(0);">关于我们</a></li>
+        </ul>
+
+        <ul class="navbar-nav" id="nav-right">
+            <li class="nav-item head-tag">
+                <a class="nav-link" href="javascript:void(0);">
+                    <img src="resource/app.png" alt="app">
+                    手机App
+                </a>
+            </li>
+            <li class="nav-item head-tag">
+                <a class="nav-link" href="/register">
+                    注册
+                </a>
+            </li>
+
+            <li class="divider"></li>
+            <li class="nav-item head-tag">
+                <a class="nav-link" href="/login">
+                    登录
+                </a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+<div class="description">
+    <p id="title">路路通</p>
+    <h4>基于区块链和大数据分析技术的流动货物质押平台</h4>
+    <div class="description-content">
+        <p class="home-content">打破了传统仓单的形式，将仓单流转的全周期数据均会写入区块链当中，所有流转数据上链之后无法篡改。
+            货物的入库、在库、出库等信息可以通过物联网进行采集。</p>
+    </div>
+
+    <a type="button" class="btn" id="entrance" href="javascript:void(0);">立即体验</a>
+</div>
+
+<div class="container-fluid introduction">
+    <div class="row">
+        <div class="offset-md-1 col-md-5 introduction-image"></div>
+        <div class="col-md-4 introduction-content">
+            <p class="home-category">产品简介<span class="home-category-english">PRODUCT INTRODUCTION</span></p>
+
+            <p class="home-content">
+                打破了传统仓单的形式，将仓单流转的全周期数据均会写入区块链当中，所有流转数据上链之后无法篡改。
+                货物的入库、在库、出库等信息可以通过物联网进行采集，并将生成的hash值实时上链，确保仓单源头数据无法造假。
+                打破了传统仓单的形式，将仓单流转的全周期数据均会写入区块链当中，
+                所有流转数据上链之后无法篡改。货物的入库、在库、出库等信息可以进行采集。
+            </p>
+        </div>
+    </div>
+
+
+</div>
+
+<div class="home-advantage">
+    <p class="home-category text-center">我们的优势<span class="home-category-english">OUR ADVANTAGE</span></p>
+    <div class="container home-advantage-sector">
+        <div class="row">
+            <div class="col-md-6">
+                <img class="home-advantage-image" src="resource/home-advantage1.jpg">
+            </div>
+            <div class="offset-md-1 col-md m-auto">
+                <p class="app-effect">解决疫情期间货物滞留问题</p>
+                <div class="home-advantage-decoration"></div>
+                <p class="home-content">
+                    打破了传统仓单的形式，将仓单流转的全周期数据均会写入区块链当中，所有流转数据上链之后无法篡改。
+                    货物的入库、在库、出库等信息可以通过物联网进行采集，并将生成的hash值实时上链，确保仓单源头数据无法造假。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="container home-advantage-sector">
+        <div class="row">
+            <div class="col-md-6 home-advantage-content-container m-auto">
+                <p class="app-effect">应用大数据技术实现风险评估</p>
+                <div class="home-advantage-decoration"></div>
+                <p class="home-content">
+                    区块链分布式网络的特点，可以打通不同主体之间的数据壁垒，实现信息和数据共享。数据不会仅仅存在于某一个主体手中，
+                    而是所有人都可以看到，不用重复向多个主体汇报情况。利用区块链分布式存储技术，所有参与节点均会保存全部仓单数据副本，
+                    参与节点可以通过身份秘钥进行仓单数据查验，打破传统模式下仓单数据的信息孤岛问题。
+                </p>
+            </div>
+            <div class="offset-md-1 col-md">
+                <img class="home-advantage-image" src="resource/home-advantage2.jpg">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="container home-advantage-sector">
+        <div class="row">
+            <div class="col-md-6">
+                <img class="home-advantage-image" src="resource/home-advantage3.jpg">
+            </div>
+            <div class="offset-md-1 col-md m-auto">
+
+                <p class="app-effect">订单信息上链保证安全</p>
+                <div class="home-advantage-decoration"></div>
+                <p class="home-content">
+                    打破了传统仓单的形式，将仓单流转的全周期数据均会写入区块链当中，所有流转数据上链之后无法篡改。
+                    货物的入库、在库、出库等信息可以通过物联网进行采集，并将生成的hash值实时上链，确保仓单源头数据无法造假。
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <footer class="container-fluid footer">
+        <div class="row">
+            <div class="col-md-1 offset-1">
+                <p><a href="#">关于我们</a></p>
+            </div>
+            <div class="col-md-2">
+                <p><a href="#">法律声明及隐私政策</a></p>
+            </div>
+            <div class="col-md-1">
+                <p><a href="#">加入我们</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-1 foot-tag foot-tag-color">
+                <address>Address/地址：辽宁省大连经济技术开发区图强街321号</address>
+            </div>
+            <div class="col-md-2 foot-tag foot-tag-color">
+                <p>P.C./邮编：116600</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 offset-1 foot-tag foot-tag-color">
+                <p>Tel/联系电话：020-000000 000-000000</p>
+            </div>
+            <div class="col-md-2 foot-tag foot-tag-color">
+                <p>Mail/邮箱：contact@fkadjkhsf.com</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
