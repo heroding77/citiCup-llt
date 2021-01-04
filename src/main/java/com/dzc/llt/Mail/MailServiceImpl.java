@@ -4,13 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 
 /**
  * @author:dzc
  * @date 2021-01-04 9:57
  */
 
-
+@Service("mailService")
 public class MailServiceImpl implements MailService {
     @Autowired
     private JavaMailSender mailSender;
