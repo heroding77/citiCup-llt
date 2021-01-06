@@ -121,16 +121,16 @@ public class UserController {
         JSONObject result = null;
         if (!userService.existsUser(username)) {     //不存在此用户
             //提示前端不存在
-            result.put("result",1);
+            result.put("isLogin",1);
             return result;
         } else {
             User userBean = userService.findUer(username);
             //用户存在且密码相同
             if (userBean.getPassword().equals(password)) {
-                result.put("result",0);
+                result.put("isLogin",0);
                 return result;
             } else {   //如果密码与数据库不相同   则提示前端用户名/密码错误
-                result.put("result",2);
+                result.put("isLogin",2);
                 return result;
             }
         }
