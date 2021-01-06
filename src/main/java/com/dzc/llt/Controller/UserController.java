@@ -1,9 +1,12 @@
 package com.dzc.llt.Controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.dzc.llt.Pojo.Company;
 import com.dzc.llt.Pojo.User;
 import com.dzc.llt.Service.CompanyService;
 import com.dzc.llt.Service.UserService;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -102,6 +105,33 @@ public class UserController {
                 message3 = "密码有误！";
                 model.addAttribute("message3", message3);
                 return "登录";
+            }
+        }
+    }
+
+    /**
+     * 安卓端登录请求路径
+     * @param user
+     * @return
+     */
+    @RequestMapping("/android/login_data")
+    public JSONObject login_android_data(@RequestParam JSONObject user) {
+        String username = user.getString("username");
+        String password = user.getString("password");
+        JSONObject result = null;
+        if (!userService.existsUser(username)) {     //不存在此用户
+            //提示前端不存在
+            result.put("result",1);
+            return result;
+        } else {
+            User userBean = userService.findUer(username);
+            //用户存在且密码相同
+            if (userBean.getPassword().equals(password)) {
+                result.put("result",0);
+                return result;
+            } else {   //如果密码与数据库不相同   则提示前端用户名/密码错误
+                result.put("result",2);
+                return result;
             }
         }
     }
