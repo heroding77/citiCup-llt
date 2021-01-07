@@ -1,20 +1,24 @@
 package com.dzc.llt.Controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.dzc.llt.Pojo.Company;
 import com.dzc.llt.Pojo.User;
 import com.dzc.llt.Service.CompanyService;
 import com.dzc.llt.Service.UserService;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author:dzc
@@ -111,28 +115,29 @@ public class UserController {
 
     /**
      * 安卓端登录请求路径
-     * @param user
+     * @param request
      * @return
+     * @throws UnsupportedEncodingException
      */
+    @ResponseBody
     @RequestMapping("/android/login_data")
-    public JSONObject login_android_data(@RequestParam JSONObject user) {
-        String username = user.getString("username");
-        String password = user.getString("password");
-        JSONObject result = null;
+    public JSONObject login_android_data(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        Map<String,Object> map = new HashMap<>();
         if (!userService.existsUser(username)) {     //不存在此用户
             //提示前端不存在
-            result.put("isLogin",1);
-            return result;
+            map.put("isLogin",1);
         } else {
             User userBean = userService.findUer(username);
             //用户存在且密码相同
             if (userBean.getPassword().equals(password)) {
-                result.put("isLogin",0);
-                return result;
+                map.put("isLogin",0);
             } else {   //如果密码与数据库不相同   则提示前端用户名/密码错误
-                result.put("isLogin",2);
-                return result;
+                map.put("isLogin",2);
             }
         }
+        return JSONObject.fromObject(map);
     }
 }
