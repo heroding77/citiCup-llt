@@ -1,5 +1,7 @@
 package com.dzc.llt.Controller;
 
+import com.dzc.llt.Mail.MailService;
+import com.dzc.llt.Mail.VerCodeGenerateUtil;
 import com.dzc.llt.Pojo.Company;
 import com.dzc.llt.Pojo.User;
 import com.dzc.llt.Service.CompanyService;
@@ -9,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,6 +36,10 @@ public class UserController {
     @Autowired
     @Qualifier("companyService")
     private CompanyService companyService;
+
+    @Autowired
+    @Qualifier("mailService")
+    private MailService mailService;
 
     /**
      * 接受 提交注册数据
@@ -80,8 +85,6 @@ public class UserController {
             Company s = companyService.findCompany(username);
             if (password.equals(s.getPassword())) {
                 session.setAttribute("loginUser", username);
-
-
                 return "redirect:/WH_business";
             } else {
                 message3 = "密码有误！";
@@ -125,7 +128,7 @@ public class UserController {
         request.setCharacterEncoding("UTF-8");
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        Map<String,Object> map = new HashMap<>();
+        Map<String, Integer> map = new HashMap<>();
         if (!userService.existsUser(username)) {     //不存在此用户
             //提示前端不存在
             map.put("isLogin",1);
@@ -139,5 +142,61 @@ public class UserController {
             }
         }
         return JSONObject.fromObject(map);
+    }
+
+    /**
+     * 安卓端注册请求路径
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping("/android/register_data")
+    public JSONObject register_android_data(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String email = request.getParameter("email");
+        Map<String, Integer> map = new HashMap<>();
+        if(userService.existsUser(username)){
+            //若存在此用户名，不允许重复注册
+            map.put("isRegister", 1);
+        }else{
+            //不存在此用户名，允许注册
+            User user =new User(username,password,email);
+            userService.saveUser(user);
+            map.put("isRegister", 0);
+        }
+        return JSONObject.fromObject(map);
+    }
+
+    /**
+     * 安卓端接收验证码
+     * @param request
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    @RequestMapping("/android/verification_code")
+    public JSONObject verification_android_code(HttpServletRequest request) throws UnsupportedEncodingException {
+        request.setCharacterEncoding("UTF-8");
+        String email = request.getParameter("email");
+        Map<String, String> map = get_verification_code(email);
+        return JSONObject.fromObject(map);
+    }
+
+    /**
+     * 发送验证码
+     * @param email_add
+     * @return
+     */
+    public Map<String, String> get_verification_code(String email_add) {    //返回类型为Map
+        System.out.println("。。。");
+        Map<String, String> resultMap = new HashMap<>();
+        String code = VerCodeGenerateUtil.generateVerCode();
+        mailService.sendHTMLMail(email_add, "Hello!", "尊敬的用户,您好:\n"
+                + "\n本次请求的邮件验证码为:" + code + ",本验证码5分钟内有效，请及时输入。（请勿泄露此验证码）\n"
+                + "\n如非本人操作，请忽略该邮件。\n(这是一封自动发送的邮件，请不要直接回复）");
+        resultMap.put("result","验证码已发送至"+email_add);
+        resultMap.put("verificationCode",code);    //key是验证码的键
+        return resultMap;
     }
 }

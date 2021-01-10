@@ -20,7 +20,7 @@ public class MailController {
     @Qualifier("mailService")
     private MailService mailService;
 
-    @RequestMapping("mailService")
+    @RequestMapping("/verification_code")
     @ResponseBody
     public Map<String, Object> get_mailService(String email_add) {    //返回类型为Map
         System.out.println("。。。");

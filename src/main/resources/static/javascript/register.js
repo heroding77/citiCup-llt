@@ -149,7 +149,7 @@ function temp() {
             async : true,
             cache : false,
             type : 'POST',
-            url : 'aaaa/bbbb',   //后台收到请求加以处理
+            url : '/verification_code',   //后台收到请求加以处理
             dataType : "json",
             data : params,
             error : function (data) {    //后台返回值就是data  带有result等属性 一般是Map
