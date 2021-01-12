@@ -150,6 +150,7 @@ public class UserController {
      * @return
      * @throws UnsupportedEncodingException
      */
+    @ResponseBody
     @RequestMapping("/android/register_data")
     public JSONObject register_android_data(HttpServletRequest request) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
@@ -175,6 +176,7 @@ public class UserController {
      * @return
      * @throws UnsupportedEncodingException
      */
+    @ResponseBody
     @RequestMapping("/android/verification_code")
     public JSONObject verification_android_code(HttpServletRequest request) throws UnsupportedEncodingException {
         request.setCharacterEncoding("UTF-8");
