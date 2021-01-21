@@ -1,164 +1,160 @@
 $(document).ready(function () {
+    var password = $("#password");
+    var confirmPassword = $("#confirm-password");
+    var email = $("#email-address");
+    var confirmCode = $("#confirm_code");
 
-    window.eal_pass = null;   //真实的验证码
-    window.button_commit = document.getElementById("submit-btn");
-    window.getPass_btn = document.getElementById("getPass-btn");
-    getPass_btn.addEventListener("click", temp);
-    let $password = $("input[name='password']");
-    let $confirm_password = $("input[name='confirm_password']");
-
-    $password.on("change", function () {
-        checkLegal($password);
-        checkEqual($password, $confirm_password);
+    email.on("change", function () {
+        emailFormatVerification(email.val());
     });
 
-    $confirm_password.on("change", function () {
-        checkEqual($password, $confirm_password);
-    })
+    password.on("change", function () {
+        checkLegal(password.val());
+    });
+
+    confirmPassword.on("change", function () {
+        checkEqual(password.val(), confirmPassword.val());
+    });
+
+    confirmCode.on("change", function () {
+        checkConfirmCode(confirmCode.val());
+    });
+
+    var identifiedCodeBtn = $("#getPass-btn");
+
+    identifiedCodeBtn.on("click", function () {
+        var email_value = email.val();
+
+        var time = 30;
+
+        if(email_value !== ""){
+            var timerH = setInterval(function () {
+                if (time === 0) {
+                    identifiedCodeBtn.html("重新获取验证码");
+                    clearInterval(timerH);
+                } else {
+                    identifiedCodeBtn.html("(" + time + ")s");
+                    time--;
+                }
+            }, 1000);
+
+            // 构造params，方便传给后台
+                var params = {};
+                params.email_add=email_value;
+                //ajax的type,url,dataType,contentType,data属性
+                $.ajax({
+                    async : false,
+                    cache : false,
+                    type : 'POST',
+                    url : 'mail/sendmail',   //后台收到请求加以处理
+                    dataType : "json",
+                    data : params,
+                    error : function (data) {    //后台返回值就是data  带有result等属性 一般是Map
+                        alert("Error! Can not send mail. "+data.result)
+                    },
+                    success : function (data) {
+                            window.real_pass = data.key;   //设置验证码赋值给real_pass
+                    }
+                })
+
+        }
+    });
 });
 
-$(window).resize(function () {
-    let $password = $("input[name='password']");
-    let $confirm_password = $("input[name='confirm_password']");
-    let warn = $("#password-warn");
-    setOffset(warn, $($password).offset(), {height : $($password).height(),
-        width : $($password).width()});
-    let confirm_warn =  $("#confirm-password-warn");
-    setOffset(confirm_warn, $($confirm_password).offset(), {height : $($confirm_password).height(),
-        width : $($confirm_password).width()});
-});
-
-function setOffset(obj, $offset, $rect){
-    // let co = {top : $offset.top + $rect.height / 2 - 10, left :  $offset.left + $rect.width};
-    $(obj).css("top", $offset.top + $rect.height / 2 - 10);;
-    $(obj).css("left", $offset.left + $rect.width);
-    // $(obj).offset({top : $offset.top + $rect.height / 2 - 10, left :  $offset.left + $rect.width});
-    console.log($(obj).offset());
-}
-
-function alertPasswordInfo($offset, $rect, mod){
-    let warn = $("#password-warn");
-    switch (mod) {
-        case 1:     //显示
-            setOffset(warn, $offset, $rect);
-            warn.fadeIn();
-            // warn.addClass("warn-active");
-            break;
-        case 2:     //隐藏
-            // warn.removeClass("warn-active");
-            warn.fadeOut();
-            break;
+function checkEqual(password, confirm_password){
+    if (confirm_password.length === 0){
+        toast("确认密码错误", "确认密码不能为空", "notice");
     }
-}
-
-function alertConfirmPasswordInfo($offset, $rect, mod) {
-    let confirm_warn = $("#confirm-password-warn");
-    switch (mod) {
-        case 1:
-            setOffset(confirm_warn, $offset, $rect);
-            confirm_warn.fadeIn();
-            break;
-        case 2:
-            confirm_warn.fadeOut();
-            break;
-    }
-}
-
-function checkEqual($password, $confirm_password){
-    let pass = $password.val();
-    let confirm_pass = $confirm_password.val();
-    if (confirm_pass.length === 0){
-        return ;
-    }
-    if (pass !== confirm_pass){
-        alertConfirmPasswordInfo($($confirm_password).offset(), {height : $($confirm_password).height(),
-            width : $($confirm_password).width()}, 1);
+    if (password !== confirm_password){
+        toast("确认密码错误", "与设定密码不符", "error");
     }
     else{
-        alertConfirmPasswordInfo($($confirm_password).offset(), {height : $($confirm_password).height(),
-            width : $($confirm_password).width()}, 2);
+        toast("确认密码正确", "符合要求", "success");
+        return true;
     }
+    return false;
 }
 
-function checkLegal($password){
-    let pass = $password.val();
-    if (pass.length === 0){
-        alertPasswordInfo($($password).offset(), {height : $($password).height(),
-            width : $($password).width()}, 2);
+function checkLegal(password){
+    if (password.length === 0){
+        toast("密码错误", "密码不能为空", "notice");
     }
-    else if ((pass.length > 0 && pass.length < 6) || pass.length > 16){
-        alertPasswordInfo($($password).offset(), {height : $($password).height(),
-            width : $($password).width()}, 1);
+    else if ((password.length > 0 && password.length < 6) || password.length > 16){
+        toast("密码错误", "密码过长或过短", "error");
     }
     else{
-        alertPasswordInfo($($password).offset(), {height : $($password).height(),
-            width : $($password).width()}, 2);
+        toast("密码无误", "密码格式符合要求", "success");
+        return true;
     }
+    return false;
 }
 
-const sleep = time => {
-    return new Promise(resolve => setTimeout(resolve,time))
-};
-
-
-
-
-
-
-function changeButtonBackground(button_commit) {
-    let button_commit_copy = document.getElementById("submit-btn");
-    button_commit_copy.style.backgroundColor = "#000051";
-}
-
-function test_pass(){
-    if(real_pass == document.getElementById("confirm_code").value){
-        button_commit.removeAttribute("disabled");
-        button_commit.className = "";
-        button_commit.addEventListener("mouseenter", changeButtonBackground);
-        alert("验证通过！");
-    }else{
-        alert("验证码不正确，请重新输入！");
-        button_commit.setAttribute("disabled", "disabled");
-        button_commit.className = "disable";
-        button_commit.removeEventListener("mouseenter", changeButtonBackground);
+function emailFormatVerification(val) {
+    if (val === null || val === "" || val === undefined) {
+        toast("邮箱错误", "邮箱不能为空", "notice");
+        return false;
     }
-}
-
-
-function temp() {
-    //获取邮箱地址
-    // let email_address = document.getElementById("email-address").value;
-    let email_address = $("#email-address").val();
-    //邮箱为空  警告
-    if(email_address == null){
-        alert("邮箱不能为空！");
-    }else{     //否则发送邮件
-
-        getPass_btn.setAttribute("style", "cursor: no-drop");
-        getPass_btn.removeEventListener("click", temp);
-        console.log(getPass_btn.classList);
-        sleep(60000).then(()=>{
-            getPass_btn.setAttribute("style", "");
-            getPass_btn.addEventListener("click", temp);
-        });
-        //构造params，方便传给后台
-        let params = {};
-        params.email_add=email_address;
-        //ajax的type,url,dataType,contentType,data属性
-        $.ajax({
-            async : true,
-            cache : false,
-            type : 'POST',
-            url : '/verification_code',   //后台收到请求加以处理
-            dataType : "json",
-            data : params,
-            error : function (data) {    //后台返回值就是data  带有result等属性 一般是Map
-                alert("Error! Can not send mail. "+data.result)
-            },
-            success : function (data) {
-                alert(data.result);  //弹出正确窗口
-                window.real_pass = data.key;   //设置验证码赋值给real_pass
+    var pattern = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+    var domains = ["qq.com", "163.com", "vip.163.com", "263.net", "yeah.net", "sohu.com", "sina.cn", "sina.com", "eyou.com", "gmail.com", "hotmail.com", "42du.cn"];
+    if (pattern.test(val)) {
+        var domain = val.substring(val.indexOf("@") + 1);
+        for (var i = 0; i < domains.length; i++) {
+            if (domain === domains[i]) {
+                toast("邮箱无误", "邮箱格式符合要求", "success");
+                return true;
             }
-        })
+        }
     }
+    toast("邮箱错误", "邮箱格式错误", "error");
+    return false;
+}
+
+function checkConfirmCode(confirmCode){
+    if (window.real_pass === undefined || window.real_pass === "" || window.real_pass === null){
+        toast("验证码提醒", "您还没有请求验证码呢！", "notice");
+        return false;
+    }
+    else {
+        if (confirmCode === undefined || confirmCode === "" || confirmCode === null) {
+            toast("验证码错误", "验证码不能为空", "error");
+        }
+        else if (confirmCode.toLowerCase() !== window.real_pass.toLowerCase()){
+            toast("验证码错误", "验证码不匹配", "error");
+        }
+        else{
+            toast("验证码正确", "验证码匹配", "success");
+            return true;
+        }
+    }
+    return false;
+}
+
+// error info success warning notice
+function toast(title, message, type){
+    $.Toast(title, message, type, {
+        stack: true,
+        has_icon:true,
+        has_close_btn:true,
+        fullscreen:false,
+        timeout:2000,
+        sticky:false,
+        has_progress:true,
+        rtl:false,
+    });
+}
+
+function submitCheck(){
+    var password = $("#password");
+    var confirmPassword = $("#confirm-password");
+    var email = $("#email-address");
+    var username = $("#username");
+    var confirmCode = $("#confirm_code");
+
+    if (username.val() === "" || username.val() === undefined || username.val() === null){
+        toast("用户名错误", "用户名不能为空" ,"notice");
+        return false;
+    }
+
+    return emailFormatVerification(email.val()) && checkLegal(password.val())
+        && checkEqual(password.val(), confirmPassword.val()) && checkConfirmCode(confirmCode.val());
 }

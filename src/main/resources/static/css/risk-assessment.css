@@ -1,0 +1,40 @@
+.risk-assessment-container{
+    background-color: #ffffff;
+    margin: 0 auto;
+    padding: 20px;
+    width: 70%;
+    border-radius: 10px;
+    border: 1px solid rgb(204, 204, 204);
+}
+
+.risk-assessment-title-container{
+    padding: 5px;
+    border-bottom: 1px solid #cccccc;
+    margin: 5px;
+}
+
+.risk-assessment-title{
+    display: inline;
+    font-size: 28px;
+    color: #333333;
+    padding: 10px;
+}
+
+.risk-assessment-description{
+    display: inline;
+    color: #999999;
+    font-size: 16px;
+}
+
+.risk-assessment-submit-button{
+    background-color: rgb(0, 116, 238);
+    border-radius: 43px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #ffffff;
+    padding: 10px 50px;
+}
+
+.risk-assessment-submit-button:hover{
+    background-color: rgb(160, 160, 160);
+}

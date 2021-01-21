@@ -54,4 +54,15 @@ public class IndexController {
         return "首页-登录后";
     }
 
+    /**
+     * @author:lzr
+     * @date 2021-01-13 22:49
+     * @param name
+     * @return
+     */
+    @RequestMapping("/my_info")
+    public String my_info(String name){
+        return "我的业务";
+    }
+
 }

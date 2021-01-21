@@ -2,10 +2,6 @@
     height: 800px;
 }
 
-.register-interface{
-    background-image: url("../resource/background.png");
-}
-
 .welcome{
     /*padding: 5px;*/
     font-size: 30px;
